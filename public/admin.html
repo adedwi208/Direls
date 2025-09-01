@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Halaman Admin</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <a href="#" class="menu-link active" data-target="dashboard">Dashboard</a>
+        <a href="#" class="menu-link" data-target="riwayat">Riwayat Pesanan</a>
+        <a href="#" class="menu-link" data-target="pesanan">Pesanan Masuk</a>
+        <a href="#" class="menu-link" data-target="tambah">Tambah Barang</a>
+        <a href="#" class="menu-link" data-target="pelanggan">Data Pelanggan</a>
+        <div class="logout">
+            <a href="home.html">Logout</a>
+        </div>
+    </div>
+
+    <div class="content">
+        <!-- Dashboard -->
+        <section id="dashboard" class="section">
+            <h1>Dashboard Admin</h1>
+            <div class="card-container">
+                <div class="card">
+                    <h2>Riwayat Pesanan</h2>
+                    <p>Melihat daftar pesanan yang sudah diproses.</p>
+                </div>
+                <div class="card">
+                    <h2>Pesanan Masuk</h2>
+                    <p>Daftar pesanan yang baru diterima.</p>
+                </div>
+                <div class="card">
+                    <h2>Tambah Barang</h2>
+                    <p>Menambahkan produk baru ke sistem.</p>
+                </div>
+                <div class="card">
+                    <h2>Data Pelanggan</h2>
+                    <p>Melihat dan mengelola informasi pelanggan.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Riwayat Pesanan -->
+        <section id="riwayat" class="section hidden">
+            <h1>Riwayat Pesanan</h1>
+            <div id="riwayatContainer">
+                <p class="small">Memuat riwayat pesanan...</p>
+            </div>
+        </section>
+
+        <!-- Pesanan Masuk -->
+        <section id="pesanan" class="section hidden">
+            <h1>Pesanan Masuk</h1>
+            <div id="pesananContainer">
+                <p class="small">Memuat pesanan masuk...</p>
+            </div>
+        </section>
+
+        <!-- Tambah Barang -->
+        <section id="tambah" class="section hidden">
+    <h1>Tambah Barang</h1>
+    <form id="tambahBarangForm" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="kategori">Kategori</label>
+            <select id="kategori" name="kategori" required>
+                <option value="produk">Produk</option>
+                <option value="kemasan">Kemasan</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="nama">Nama</label>
+            <input type="text" id="nama" name="nama" required>
+        </div>
+        <div class="form-group">
+            <label for="deskripsi">Deskripsi</label>
+            <textarea id="deskripsi" name="deskripsi"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="harga">Harga</label>
+            <input type="number" id="harga" name="harga" required>
+        </div>
+        <div class="form-group">
+        <label for="foto">Foto</label>
+        <input type="file" id="foto" name="foto" required>
+        <div id="previewWrap" class="hidden">
+            <img id="previewImg" src="" alt="Pratinjau Foto" style="max-width: 200px; margin-top: 10px;">
+        </div>
+        </div>
+
+        <div id="varian-group" class="form-group">
+            <label>Varian</label>
+            <div class="checkbox-group">
+                <input type="checkbox" id="ukuran_baju" name="varian" value="ukuran_baju">
+                <label for="ukuran_baju">Ukuran Baju</label>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="ukuran_sepatu" name="varian" value="ukuran_sepatu">
+                <label for="ukuran_sepatu">Ukuran Sepatu</label>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="warna" name="varian" value="warna">
+                <label for="warna">Warna</label>
+            </div>
+        </div>
+
+        <button type="submit">Tambah Barang</button>
+    </form>
+</section>
+
+        <!-- Data Pelanggan -->
+        <section id="pelanggan" class="section hidden">
+            <h1>Data Pelanggan</h1>
+            <div id="pelangganContainer">
+                <p class="small">Memuat data pelanggan...</p>
+            </div>
+        </section>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

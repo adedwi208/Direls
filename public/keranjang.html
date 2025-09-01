@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keranjang - Hampers Direl's</title>
+  <link rel="stylesheet" href="produk.css">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body>
+  <header class="navbar">
+    <a href="produk.html" class="logo">Hampers Direl's</a>
+    <div class="nav-icons">
+      <a href="keranjang.html"><i class="ri-shopping-cart-2-line"></i></a>
+      <a href="profil.html"><i class="ri-user-3-line"></i></a>
+    </div>
+  </header>
+
+  <main class="content">
+    <h1>Keranjang Belanja</h1>
+    <div id="keranjangList" class="produk-list">
+      <p style="text-align:center;">Memuat keranjang...</p>
+    </div>
+    
+    <div style="text-align:center; margin-top:30px;">
+      <h2>Total: <span id="totalHarga">Rp 0</span></h2>
+      <button id="checkoutBtn" style="background:#FF69B4;color:white;padding:12px 30px;border:none;border-radius:25px;cursor:pointer;">
+        Checkout
+      </button>
+    </div>
+
+    <!-- Form Pembayaran Modal -->
+<!-- Form Pembayaran Modal (letakkan di keranjang.html) -->
+<div id="checkoutModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Form Pembayaran</h2>
+    <form id="checkoutForm">
+      <label>Nama Lengkap</label>
+      <input type="text" name="full_name" required>
+
+      <label>Email</label>
+      <input type="email" name="email" required>
+
+      <label>No HP</label>
+      <input type="text" name="phone" required>
+
+      <label>Alamat</label>
+      <textarea name="address" required></textarea>
+
+      <label>Metode Pembayaran</label>
+      <select name="payment_method" required>
+        <option value="">Pilih Metode</option>
+        <option value="Transfer Bank">Transfer Bank</option>
+        <option value="COD">COD</option>
+      </select>
+
+      <!-- CATATAN UKURAN: user bisa memberi tahu size baju/sepatu di sini -->
+      <label>Catatan ukuran (bila ada, contoh: baju S, sepatu 42)</label>
+      <textarea name="catatan_ukuran" placeholder="Tuliskan ukuran untuk tiap item (opsional)"></textarea>
+
+      <input type="hidden" name="order_id">
+
+      <button type="submit">Bayar Sekarang</button>
+    </form>
+  </div>
+</div>
+
+<!-- Tambahkan tempat menampilkan resi & admin setelah sukses (opsional) -->
+<div id="checkoutResult" style="display:none; padding:16px; border-radius:8px; background:#f3f3f3; margin-top:12px;">
+  <h3>Detail Pesanan</h3>
+  <p>Resi: <span id="resiText"></span></p>
+  <p>Metode Pembayaran: <span id="metodeText"></span></p>
+  <p>Hubungi Admin: <a id="adminPhoneLink" href="#">081234567890</a></p>
+</div>
+
+  </main>
+  <script src="keranjang.js"></script>
+</body>
+</html>
