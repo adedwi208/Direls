@@ -1,0 +1,127 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, white, #FFB6C1);
+}
+
+.form-container {
+    width: 90%;
+    max-width: 450px;
+    padding: 40px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.form {
+    display: none; /* Hide all forms by default */
+}
+
+.form h2 {
+    font-size: 2em;
+    margin-bottom: 30px;
+    color: #FF69B4;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: 500;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+    border-color: #FF69B4;
+    outline: none;
+}
+
+.form-btn {
+    width: 100%;
+    padding: 15px;
+    background: #FF69B4;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.form-btn:hover {
+    background: #FFB6C1;
+    transform: translateY(-2px);
+}
+
+.form-link {
+    margin-top: 20px;
+    font-size: 0.9em;
+}
+
+.form-link a {
+    color: #FF69B4;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.form-link a:hover {
+    color: #FF8B8B;
+    text-decoration: underline;
+}
+
+.back-home-link {
+    margin-top: 20px;
+    font-size: 0.9em;
+    text-align: center;
+}
+
+.back-home-link a {
+    color: #555;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.back-home-link a:hover {
+    color: #333;
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .form-container {
+        padding: 30px 20px;
+    }
+
+    .form h2 {
+        font-size: 1.8em;
+    }
+
+    .input-group input, .form-btn {
+        font-size: 0.9em;
+    }
+}
