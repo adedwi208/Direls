@@ -117,38 +117,77 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // load riwayat pesanan
-  async function loadRiwayat() {
-    const wrap = document.getElementById("riwayatContainer");
-    wrap.innerHTML = '<p class="small">Memuat riwayat pesanan...</p>';
-    try {
-      const res = await fetch("/api/admin/riwayat", { 
-        headers: { Authorization: `Bearer ${getToken()}` } 
-      });
-      const rows = await res.json();
-      if (!res.ok) throw new Error(rows.message || 'Gagal');
-      if (!rows.length) { wrap.innerHTML = '<p class="small">Belum ada riwayat pesanan.</p>'; return; }
+async function loadRiwayat() {
+  const wrap = document.getElementById("riwayatContainer");
+  wrap.innerHTML = '<p class="small">Memuat riwayat pesanan...</p>';
 
-      let html = `<table><thead><tr><th>ID</th><th>Pelanggan</th><th>Produk</th><th>Jumlah</th><th>Total</th><th>Status</th><th>Tanggal</th></tr></thead><tbody>`;
-      rows.forEach(r => html += `<tr><td>${r.id}</td><td>${r.pelanggan}</td><td>${r.produk}</td><td>${r.jumlah}</td><td>${r.total}</td><td>${r.status}</td><td>${new Date(r.created_at).toLocaleString()}</td></tr>`);
-      html += `</tbody></table>`;
-      wrap.innerHTML = html;
-    } catch (err) {
-      console.error(err);
-      wrap.innerHTML = `<p class="small">Error: ${err.message || 'Gagal ambil data'}</p>`;
+  try {
+    const res = await fetch("/api/admin/riwayat", {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    });
+    const rows = await res.json();
+    if (!res.ok) throw new Error(rows.message || 'Gagal');
+
+    if (!rows.length) {
+      wrap.innerHTML = '<p class="small">Belum ada riwayat pesanan.</p>';
+      return;
     }
+
+    let html = `<table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Pelanggan</th>
+          <th>Produk</th>
+          <th>Jumlah</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th>Catatan</th>
+          <th>Tanggal</th>
+        </tr>
+      </thead>
+      <tbody>`;
+
+    rows.forEach(r => {
+      html += `<tr>
+        <td>${r.id}</td>
+        <td>${r.nama}</td>
+        <td>${r.produk_id}</td>
+        <td>${r.jumlah}</td>
+        <td>Rp ${parseFloat(r.total_harga).toLocaleString('id-ID')}</td>
+        <td>${r.status}</td>
+        <td>${r.catatan || '-'}</td>
+        <td>${new Date(r.created_at).toLocaleString()}</td>
+      </tr>`;
+    });
+
+    html += `</tbody></table>`;
+    wrap.innerHTML = html;
+
+  } catch (err) {
+    console.error(err);
+    wrap.innerHTML = `<p class="small">Error: ${err.message || 'Gagal ambil data'}</p>`;
   }
+}
+
+
 
   // load pesanan masuk
-  async function loadPesananMasuk() {
+async function loadPesananMasuk() {
   const wrap = document.getElementById("pesananContainer");
   wrap.innerHTML = '<p class="small">Memuat pesanan masuk...</p>';
+
   try {
     const res = await fetch("/api/admin/pesanan-masuk", { 
       headers: { Authorization: `Bearer ${getToken()}` } 
     });
     const rows = await res.json();
     if (!res.ok) throw new Error(rows.message || 'Gagal');
-    if (!rows.length) { wrap.innerHTML = '<p class="small">Tidak ada pesanan masuk.</p>'; return; }
+
+    if (!rows.length) {
+      wrap.innerHTML = '<p class="small">Tidak ada pesanan masuk.</p>';
+      return;
+    }
 
     let html = `<table>
       <thead>
@@ -164,7 +203,8 @@ document.addEventListener("DOMContentLoaded", () => {
           <th>Status</th>
           <th>Aksi</th>
         </tr>
-      </thead><tbody>`;
+      </thead>
+      <tbody>`;
 
     rows.forEach(r => {
       html += `<tr>
@@ -172,7 +212,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <td>${r.nama}</td>
         <td>${r.no_hp}</td>
         <td>${r.email}</td>
-        <td>${r.alamat}</td>
+        <td>${r.alamat || '-'}</td>
         <td>${r.catatan || '-'}</td>
         <td>${r.metode_pembayaran}</td>
         <td>Rp ${parseFloat(r.total_harga).toLocaleString('id-ID')}</td>
@@ -184,6 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
     html += `</tbody></table>`;
     wrap.innerHTML = html;
 
+    // Tombol proses pesanan
     wrap.querySelectorAll('.prosesBtn').forEach(btn => btn.addEventListener('click', async (e) => {
       const id = e.target.dataset.id;
       if (!confirm('Proses pesanan #' + id + '?')) return;
@@ -207,6 +248,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 }
 
+
   // load pelanggan
   async function loadPelanggan() {
     const wrap = document.getElementById("pelangganContainer");
@@ -220,7 +262,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!rows.length) { wrap.innerHTML = '<p class="small">Belum ada pelanggan.</p>'; return; }
 
       let html = `<table><thead><tr><th>ID</th><th>Nama</th><th>Email</th><th>No HP</th><th>Role</th><th>Terdaftar</th></tr></thead><tbody>`;
-      rows.forEach(r => html += `<tr><td>${r.id}</td><td>${r.nama_lengkap}</td><td>${r.email}</td><td>${r.nomor_hp || '-'}</td><td>${r.role}</td><td>${new Date(r.created_at).toLocaleString()}</td></tr>`);
+      rows.forEach(r => html += `<tr><td>${r.id}</td><td>${r.nama}</td><td>${r.email}</td><td>${r.nohp || '-'}</td><td>${r.role}</td><td>${new Date(r.created_at).toLocaleString()}</td></tr>`);
       html += `</tbody></table>`;
       wrap.innerHTML = html;
     } catch (err) {

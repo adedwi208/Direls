@@ -100,18 +100,15 @@ document.addEventListener("DOMContentLoaded", () => {
 checkoutForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const user = JSON.parse(localStorage.getItem("user")); // ✅ tambahkan ini
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
     const formData = new FormData(checkoutForm);
     const data = Object.fromEntries(formData.entries());
 
-    // Tambahkan field wajib backend
+    // Tambahkan user_id dan total_amount
     data.user_id = user.id;
     data.total_amount = totalHarga;
-    data.payment_method = data.payment_method || "COD"; // default jika kosong
-
-
-    console.log("Token yg dikirim:", token);
-    console.log("Data checkout:", data);
+    data.payment_method = data.payment_method || "COD"; // default
 
     try {
         const res = await fetch("/api/checkout", {
@@ -126,23 +123,34 @@ checkoutForm.addEventListener("submit", async (e) => {
         const result = await res.json();
         if (!res.ok) throw new Error(result.message || "Gagal checkout");
 
-        // tampilkan info checkout
-        document.getElementById('resiText').textContent = result.resi;
-        document.getElementById('metodeText').textContent = result.payment_method;
+        // Ambil elemen adminLink dari DOM
         const adminLink = document.getElementById('adminPhoneLink');
-        adminLink.textContent = result.admin_no;
-        adminLink.href = `https://wa.me/${result.admin_no.replace(/\D/g,'')}`;
 
-        document.getElementById('checkoutResult').style.display = 'block';
-        modal.style.display = "none";
+        // Pastikan fallback jika admin_no undefined
+        const adminNo = result.admin_no || "08123456789";
 
-        // refresh keranjang
+        // Update konten dan link
+        if (adminLink) {
+            adminLink.textContent = adminNo;
+            adminLink.href = `https://wa.me/${adminNo.replace(/\D/g,'')}`;
+        }
+
+        // Tampilkan alert / info
+        alert("Checkout berhasil! Hubungi admin: " + adminNo);
+
+        // Sembunyikan form checkout jika mau
+                if(modal) modal.style.display = "none";
+        checkoutForm.reset();
+
+        // Tampilkan hasil checkout
+        if(checkoutResult) checkoutResult.style.display = "block";
+
+        // Refresh keranjang
         loadKeranjang();
-        alert("Pesanan berhasil! Resi: " + result.resi + "\nHubungi admin: " + result.admin_no);
 
     } catch (err) {
         console.error(err);
-        alert("Terjadi kesalahan saat checkout: " + err.message);
+        alert("Error: " + err.message);
     }
 });
 

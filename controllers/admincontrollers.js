@@ -20,35 +20,44 @@ exports.tambahProduk = async (req, res) => {
 };
 
 // Ambil riwayat pesanan
+// controllers/admincontrollers.js
+
 exports.getRiwayat = async (req, res) => {
   try {
     const [rows] = await db.query(`
-      SELECT p.id, u.nama AS pelanggan, pr.nama AS produk, p.jumlah, p.total_harga AS total, p.status, p.created_at
-      FROM pesanan p
-      JOIN users u ON p.user_id = u.id
-      JOIN produk pr ON p.produk_id = pr.id
-      ORDER BY p.created_at DESC
+      SELECT id, user_id, nama, no_hp, email, alamat, catatan, metode_pembayaran, jumlah, total_harga, status, created_at
+      FROM pesanan
+      WHERE status = 'diproses' OR status = 'selesai'
+      ORDER BY created_at DESC
     `);
     res.json(rows);
   } catch (err) {
-    console.error(err);
+    console.error("❌ Error getRiwayat:", err.message);
     res.status(500).json({ message: "Gagal ambil riwayat pesanan" });
   }
 };
 
 
+
+
+
+
 // Ambil pesanan masuk
 exports.getPesananMasuk = async (req, res) => {
   try {
-    const [rows] = await db.query(
-      `SELECT * FROM pesanan WHERE status = 'pending' ORDER BY created_at DESC`
-    );
+    const [rows] = await db.query(`
+      SELECT id, user_id, nama, no_hp, email, alamat, catatan, metode_pembayaran, total_harga, status, created_at
+      FROM pesanan
+      WHERE status = 'pending'
+      ORDER BY created_at DESC
+    `);
     res.json(rows);
   } catch (err) {
-    console.error(err);
+    console.error("❌ Error getPesananMasuk:", err.message);
     res.status(500).json({ message: "Gagal mengambil pesanan masuk" });
   }
 };
+
 
 // Proses pesanan
 exports.prosesPesanan = async (req, res) => {

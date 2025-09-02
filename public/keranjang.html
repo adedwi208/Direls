@@ -31,48 +31,47 @@
 
     <!-- Form Pembayaran Modal -->
 <!-- Form Pembayaran Modal (letakkan di keranjang.html) -->
+<!-- Modal Checkout -->
 <div id="checkoutModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
-    <h2>Form Pembayaran</h2>
+    <h2>Checkout</h2>
     <form id="checkoutForm">
-      <label>Nama Lengkap</label>
-      <input type="text" name="full_name" required>
+      <label>Nama Lengkap:</label>
+      <input type="text" name="nama" placeholder="Nama Lengkap" required>
 
-      <label>Email</label>
-      <input type="email" name="email" required>
+      <label>No HP:</label>
+      <input type="text" name="no_hp" placeholder="No HP" required>
 
-      <label>No HP</label>
-      <input type="text" name="phone" required>
+      <label>Email:</label>
+      <input type="email" name="email" placeholder="Email" required>
 
-      <label>Alamat</label>
-      <textarea name="address" required></textarea>
+      <label>Alamat:</label>
+      <textarea name="alamat" placeholder="Alamat" required></textarea>
 
-      <label>Metode Pembayaran</label>
-      <select name="payment_method" required>
-        <option value="">Pilih Metode</option>
-        <option value="Transfer Bank">Transfer Bank</option>
+      <label>Catatan (opsional):</label>
+      <textarea name="catatan" placeholder="Catatan"></textarea>
+
+      <label>Metode Pembayaran:</label>
+      <select name="payment_method">
         <option value="COD">COD</option>
+        <option value="Transfer">Transfer</option>
       </select>
 
-      <!-- CATATAN UKURAN: user bisa memberi tahu size baju/sepatu di sini -->
-      <label>Catatan ukuran (bila ada, contoh: baju S, sepatu 42)</label>
-      <textarea name="catatan_ukuran" placeholder="Tuliskan ukuran untuk tiap item (opsional)"></textarea>
-
-      <input type="hidden" name="order_id">
-
-      <button type="submit">Bayar Sekarang</button>
+      <input type="hidden" name="order_id" value=""> <!-- JS akan isi saat buka modal -->
+      <button type="submit" id="checkoutBtnModal">Checkout</button>
     </form>
   </div>
 </div>
 
+
 <!-- Tambahkan tempat menampilkan resi & admin setelah sukses (opsional) -->
-<div id="checkoutResult" style="display:none; padding:16px; border-radius:8px; background:#f3f3f3; margin-top:12px;">
-  <h3>Detail Pesanan</h3>
-  <p>Resi: <span id="resiText"></span></p>
-  <p>Metode Pembayaran: <span id="metodeText"></span></p>
-  <p>Hubungi Admin: <a id="adminPhoneLink" href="#">081234567890</a></p>
+<div id="checkoutResult" style="display:none;">
+    <p>Resi: <span id="resiText"></span></p>
+    <p>Metode: <span id="metodeText"></span></p>
+    <p>Hubungi admin: <a id="adminPhoneLink" target="_blank"></a></p>
 </div>
+
 
   </main>
   <script src="keranjang.js"></script>
