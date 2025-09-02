@@ -17,23 +17,26 @@ exports.createCheckout = async (req, res) => {
     );
 
     // Insert tiap item ke tabel pesanan
-    for (let item of cartItems) {
-      await db.query(
-        `INSERT INTO pesanan
-        (user_id, nama, no_hp, email, alamat, catatan, metode_pembayaran, total_harga, status, created_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())`,
-        [
-          user_id,
-          nama,
-          no_hp,
-          email,
-          alamat,
-          catatan,
-          payment_method || "COD",
-          item.jumlah * item.harga
-        ]
-      );
-    }
+for (let item of cartItems) {
+  await db.query(
+    `INSERT INTO pesanan 
+     (user_id, produk_id, nama, no_hp, email, alamat, catatan, metode_pembayaran, jumlah, total_harga, status, created_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())`,
+    [
+      user_id,
+      item.produk_id,  // << ini jangan sampai null
+      nama,
+      no_hp,
+      email,
+      alamat,
+      catatan || null,
+      payment_method || "COD",
+      item.jumlah,
+      item.jumlah * item.harga
+    ]
+  );
+}
+
 
     // Kosongkan keranjang
     await db.query("DELETE FROM keranjang WHERE user_id = ?", [user_id]);
