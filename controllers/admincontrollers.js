@@ -25,7 +25,7 @@ exports.tambahProduk = async (req, res) => {
 exports.getRiwayat = async (req, res) => {
   try {
     const [rows] = await db.query(`
-      SELECT id, user_id, nama, no_hp, email, alamat, catatan, metode_pembayaran, jumlah, total_harga, status, created_at
+      SELECT id, user_id, produk, nama_produk, no_hp, email, alamat, catatan, metode_pembayaran, jumlah, total_harga, status, created_at
       FROM pesanan
       WHERE status = 'diproses' OR status = 'selesai'
       ORDER BY created_at DESC
@@ -42,11 +42,12 @@ exports.getRiwayat = async (req, res) => {
 
 
 
+
 // Ambil pesanan masuk
 exports.getPesananMasuk = async (req, res) => {
   try {
     const [rows] = await db.query(`
-      SELECT id, user_id, nama, no_hp, email, alamat, catatan, metode_pembayaran, total_harga, status, created_at
+      SELECT id, user_id, produk, nama_produk, no_hp, email, alamat, catatan, metode_pembayaran, jumlah, total_harga, status, created_at
       FROM pesanan
       WHERE status = 'pending'
       ORDER BY created_at DESC
@@ -57,6 +58,7 @@ exports.getPesananMasuk = async (req, res) => {
     res.status(500).json({ message: "Gagal mengambil pesanan masuk" });
   }
 };
+
 
 
 // Proses pesanan

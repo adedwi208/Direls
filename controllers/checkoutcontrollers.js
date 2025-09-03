@@ -11,20 +11,25 @@ exports.createCheckout = async (req, res) => {
     const admin_no = "+62 857-1588-3165"; // Nomor admin tetap atau ambil dari DB
 
     // Ambil semua item keranjang user
-    const [cartItems] = await db.query(
-      "SELECT k.*, p.harga FROM keranjang k JOIN produk p ON k.produk_id = p.id WHERE k.user_id = ?",
-      [user_id]
-    );
+    // Ambil semua item keranjang user + nama produk
+const [cartItems] = await db.query(
+  `SELECT k.*, p.harga, p.nama_produk 
+   FROM keranjang k 
+   JOIN produk p ON k.produk_id = p.id 
+   WHERE k.user_id = ?`,
+  [user_id]
+);
 
-    // Insert tiap item ke tabel pesanan
+// Insert tiap item ke tabel pesanan
 for (let item of cartItems) {
   await db.query(
     `INSERT INTO pesanan 
-     (user_id, produk_id, nama, no_hp, email, alamat, catatan, metode_pembayaran, jumlah, total_harga, status, created_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())`,
+     (user_id, produk_id, produk, nama_produk, no_hp, email, alamat, catatan, metode_pembayaran, jumlah, total_harga, status, created_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())`,
     [
       user_id,
-      item.produk_id,  // << ini jangan sampai null
+      item.produk_id,     // id produk
+      item.nama_produk,   // << nama produk
       nama,
       no_hp,
       email,
@@ -36,6 +41,7 @@ for (let item of cartItems) {
     ]
   );
 }
+
 
 
     // Kosongkan keranjang
