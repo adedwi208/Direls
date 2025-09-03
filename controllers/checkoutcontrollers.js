@@ -24,7 +24,7 @@ const [cartItems] = await db.query(
 for (let item of cartItems) {
   await db.query(
     `INSERT INTO pesanan 
-     (user_id, produk_id, produk, nama_produk, no_hp, email, alamat, catatan, metode_pembayaran, jumlah, total_harga, status, created_at)
+     (user_id, produk_id, nama_produk, nama, no_hp, email, alamat, catatan, metode_pembayaran, jumlah, total_harga, status, created_at)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())`,
     [
       user_id,
