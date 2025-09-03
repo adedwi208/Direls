@@ -25,24 +25,10 @@ exports.tambahProduk = async (req, res) => {
 exports.getRiwayat = async (req, res) => {
   try {
     const [rows] = await db.query(`
-      SELECT 
-        ps.id,
-        ps.user_id,
-        pr.nama AS nama_produk,   -- ambil dari tabel produk
-        ps.nama,
-        ps.no_hp,
-        ps.email,
-        ps.alamat,
-        ps.catatan,
-        ps.metode_pembayaran,
-        ps.jumlah,
-        ps.total_harga,
-        ps.status,
-        ps.created_at
-      FROM pesanan ps
-      JOIN produk pr ON ps.produk_id = pr.id
-      WHERE ps.status IN ('diproses','selesai')
-      ORDER BY ps.created_at DESC
+      SELECT id, user_id, nama, no_hp, email, alamat, catatan, metode_pembayaran, jumlah, total_harga, status, created_at
+      FROM pesanan
+      WHERE status = 'diproses' OR status = 'selesai'
+      ORDER BY created_at DESC
     `);
     res.json(rows);
   } catch (err) {
@@ -56,30 +42,14 @@ exports.getRiwayat = async (req, res) => {
 
 
 
-
-
 // Ambil pesanan masuk
 exports.getPesananMasuk = async (req, res) => {
   try {
     const [rows] = await db.query(`
-      SELECT 
-        ps.id,
-        ps.user_id,
-        pr.nama AS nama_produk,   -- ambil dari tabel produk
-        ps.nama,
-        ps.no_hp,
-        ps.email,
-        ps.alamat,
-        ps.catatan,
-        ps.metode_pembayaran,
-        ps.jumlah,
-        ps.total_harga,
-        ps.status,
-        ps.created_at
-      FROM pesanan ps
-      JOIN produk pr ON ps.produk_id = pr.id
-      WHERE ps.status = 'pending'
-      ORDER BY ps.created_at DESC
+      SELECT id, user_id, nama, no_hp, email, alamat, catatan, metode_pembayaran, total_harga, status, created_at
+      FROM pesanan
+      WHERE status = 'pending'
+      ORDER BY created_at DESC
     `);
     res.json(rows);
   } catch (err) {
@@ -87,8 +57,6 @@ exports.getPesananMasuk = async (req, res) => {
     res.status(500).json({ message: "Gagal mengambil pesanan masuk" });
   }
 };
-
-
 
 
 // Proses pesanan

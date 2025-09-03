@@ -8,34 +8,34 @@ exports.createCheckout = async (req, res) => {
 
     if (!user_id) return res.status(400).json({ message: "Data pelanggan wajib diisi" });
 
-    const admin_no = "+62 857-1588-3165";
+    const admin_no = "+62 857-1588-3165"; // Nomor admin tetap atau ambil dari DB
 
-    // Ambil item keranjang user langsung dengan nama_produk
+    // Ambil semua item keranjang user
     const [cartItems] = await db.query(
-      `SELECT * FROM keranjang WHERE user_id = ?`,
+      "SELECT k.*, p.harga FROM keranjang k JOIN produk p ON k.produk_id = p.id WHERE k.user_id = ?",
       [user_id]
     );
 
-    for (let item of cartItems) {
-      await db.query(
-        `INSERT INTO pesanan 
-         (user_id, nama_produk, nama, no_hp, email, alamat, catatan, metode_pembayaran, jumlah, total_harga, status, created_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())`,
-        [
-          user_id,
-          item.nama_produk,     // langsung ambil dari keranjang
-          nama,
-          no_hp,
-          email,
-          alamat,
-          catatan || null,
-          payment_method || "COD",
-          item.jumlah,
-          item.jumlah * item.harga
-        ]
-      );
-    }
-
+    // Insert tiap item ke tabel pesanan
+for (let item of cartItems) {
+  await db.query(
+    `INSERT INTO pesanan 
+     (user_id, produk_id, nama, no_hp, email, alamat, catatan, metode_pembayaran, jumlah, total_harga, status, created_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())`,
+    [
+      user_id,
+      item.produk_id,  // << ini jangan sampai null
+      nama,
+      no_hp,
+      email,
+      alamat,
+      catatan || null,
+      payment_method || "COD",
+      item.jumlah,
+      item.jumlah * item.harga
+    ]
+  );
+}
 
 
     // Kosongkan keranjang
