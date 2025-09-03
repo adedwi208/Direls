@@ -15,7 +15,7 @@ exports.createCheckout = async (req, res) => {
 const [cartItems] = await db.query(
   `SELECT k.*, p.harga, p.nama AS nama_produk 
    FROM keranjang k 
-   JOIN produk p ON k.produk_id = p.id 
+   JOIN produk p ON k.nama_produk = p.nama
    WHERE k.user_id = ?`,
   [user_id]
 );
