@@ -13,33 +13,34 @@ exports.createCheckout = async (req, res) => {
     // Ambil semua item keranjang user
     // Ambil semua item keranjang user + nama produk
 const [cartItems] = await db.query(
-  `SELECT k.*, p.harga, p.nama_produk 
+  `SELECT k.*, p.harga, p.nama AS nama_produk 
    FROM keranjang k 
    JOIN produk p ON k.produk_id = p.id 
    WHERE k.user_id = ?`,
   [user_id]
 );
 
+
 // Insert tiap item ke tabel pesanan
 for (let item of cartItems) {
   await db.query(
-    `INSERT INTO pesanan 
-     (user_id, produk_id, nama_produk, nama, no_hp, email, alamat, catatan, metode_pembayaran, jumlah, total_harga, status, created_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())`,
-    [
-      user_id,
-      item.produk_id,     // id produk
-      item.nama_produk,   // << nama produk
-      nama,
-      no_hp,
-      email,
-      alamat,
-      catatan || null,
-      payment_method || "COD",
-      item.jumlah,
-      item.jumlah * item.harga
-    ]
-  );
+  `INSERT INTO pesanan 
+   (user_id, produk_id, nama_produk, nama, no_hp, email, alamat, catatan, metode_pembayaran, jumlah, total_harga, status, created_at)
+   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())`,
+  [
+    user_id,
+    item.produk_id,
+    item.nama_produk,   // hasil alias dari p.nama
+    nama,
+    no_hp,
+    email,
+    alamat,
+    catatan || null,
+    payment_method || "COD",
+    item.jumlah,
+    item.jumlah * item.harga
+  ]
+);
 }
 
 
