@@ -8,7 +8,7 @@ exports.createCheckout = async (req, res) => {
 
     if (!user_id) return res.status(400).json({ message: "Data pelanggan wajib diisi" });
 
-    const admin_no = "085715883165"; // Nomor admin tetap atau ambil dari DB
+    const admin_no = "+62 857-1588-3165"; // Nomor admin tetap atau ambil dari DB
 
     // Ambil semua item keranjang user
     const [cartItems] = await db.query(
