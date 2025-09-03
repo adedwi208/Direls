@@ -127,7 +127,7 @@ checkoutForm.addEventListener("submit", async (e) => {
         const adminLink = document.getElementById('adminPhoneLink');
 
         // Pastikan fallback jika admin_no undefined
-        const adminNo = result.admin_no || "08123456789";
+        const adminNo = result.admin_no || "085715883165";
 
         // Update konten dan link
         if (adminLink) {
