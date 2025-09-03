@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", () => {
   const userRaw = localStorage.getItem("user");
   if (!userRaw) {
     alert("Silakan login terlebih dahulu!");
@@ -38,33 +38,39 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("profilEmail").textContent = user.email || "-";
   document.getElementById("profilNomorHp").textContent = user.no_hp || "-";
 
-  // Ambil riwayat pesanan
-  try {
-    const res = await fetch(`/api/pesanan/riwayat/${user.id}`);
-    const riwayat = await res.json();
+  // Event klik tombol riwayat
+  document.getElementById("btnRiwayat").addEventListener("click", async () => {
+    const section = document.getElementById("riwayatSection");
+    section.style.display = "block";
 
-    const list = document.getElementById("riwayatList");
-    list.innerHTML = "";
+    try {
+      const res = await fetch(`/api/pesanan/riwayat/${user.id}`);
+      const riwayat = await res.json();
 
-    if (riwayat.length === 0) {
-      list.innerHTML = "<p>Belum ada riwayat pesanan.</p>";
-    } else {
-      riwayat.forEach(item => {
-        const li = document.createElement("li");
-        li.classList.add("card");
-        li.innerHTML = `
-          <h3>${item.nama_produk} (x${item.jumlah})</h3>
-          <p>Total: Rp${item.total_harga}</p>
-          <p>Pembayaran: ${item.metode_pembayaran}</p>
-          <p>Status: ${item.status}</p>
-          <small>Tanggal: ${new Date(item.created_at).toLocaleString()}</small>
-        `;
-        list.appendChild(li);
-      });
+      const list = document.getElementById("riwayatList");
+      list.innerHTML = "";
+
+      if (riwayat.length === 0) {
+        list.innerHTML = "<p>Belum ada riwayat pesanan.</p>";
+      } else {
+        riwayat.forEach(item => {
+          const li = document.createElement("li");
+          li.classList.add("card");
+          li.innerHTML = `
+            <h3>${item.nama_produk} (x${item.jumlah})</h3>
+            <p>Total: Rp${item.total_harga}</p>
+            <p>Pembayaran: ${item.metode_pembayaran}</p>
+            <p>Status: ${item.status}</p>
+            <small>Tanggal: ${new Date(item.created_at).toLocaleString()}</small>
+          `;
+          list.appendChild(li);
+        });
+      }
+    } catch (err) {
+      console.error("❌ Gagal load riwayat user:", err);
     }
-  } catch (err) {
-    console.error("❌ Gagal load riwayat user:", err);
-  }
+  });
 });
+
 
 });
