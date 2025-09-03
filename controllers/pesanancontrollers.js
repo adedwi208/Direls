@@ -1,3 +1,6 @@
+const db = require("../config/db");
+
+
 exports.getUserRiwayat = async (req, res) => {
   try {
     const { user_id } = req.params;
