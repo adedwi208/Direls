@@ -30,7 +30,7 @@ app.use("/api/admin", require("./routers/adminrouters"));
 const produkRoutes = require("./routers/produkrouters");
 const keranjangRoutes = require("./routers/keranjangrouters");
 const checkoutRoutes = require("./routers/checkoutrouters");
-const pesananRoutes = require("./routes/pesananRoutes");
+const pesananRoutes = require("./routers/pesananrouters");
 
 
 
