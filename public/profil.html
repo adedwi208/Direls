@@ -6,6 +6,24 @@
   <title>Profil - Hampers Direl's</title>
   <link rel="stylesheet" href="produk.css">
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+  <style>
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .button-group button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #333;
+      color: #fff;
+    }
+    .button-group button:hover {
+      background: #555;
+    }
+  </style>
 </head>
 <body>
   <header class="navbar">
@@ -23,18 +41,21 @@
         <h3>Nama: <span id="profilNama"></span></h3>
         <p>Email: <span id="profilEmail"></span></p>
         <p>No HP: <span id="profilNomorHp"></span></p>
-        <div style="margin-top:20px;">
+        
+        <div class="button-group">
           <a href="home.html">
             <button>Logout</button>
           </a>
+          <button id="btnRiwayat">Lihat Riwayat Pesanan</button>
         </div>
       </div>
     </div>
 
-     <div id="riwayatSection" style="display:none; margin-top:40px;">
-    <h2>Riwayat Pesanan</h2>
-    <ul id="riwayatList" class="produk-list"></ul>
-  </div>
+    <!-- Section Riwayat -->
+    <div id="riwayatSection" style="display:none; margin-top:40px;">
+      <h2>Riwayat Pesanan</h2>
+      <ul id="riwayatList" class="produk-list"></ul>
+    </div>
   </main>
 
   <script src="profil.js"></script>
