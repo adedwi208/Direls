@@ -21,6 +21,7 @@ const [cartItems] = await db.query(
 );
 
 
+
 // Insert tiap item ke tabel pesanan
 for (let item of cartItems) {
   await db.query(
@@ -29,8 +30,8 @@ for (let item of cartItems) {
    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())`,
   [
     user_id,
-    item.produk_id,
-    item.nama_produk,   // hasil alias dari p.nama
+    item.produk_id,       // masih simpan id produk
+    item.nama_produk,     // langsung simpan nama produk
     nama,
     no_hp,
     email,
